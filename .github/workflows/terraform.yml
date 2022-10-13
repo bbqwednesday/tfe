@@ -89,8 +89,9 @@ jobs:
           TF_VAR_private_key: ${{ secrets.OCI_PRIVATE_KEY }}
         if: contains(github.event.action,'init')
         run: |
+          export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
           terraform plan -no-color
-          continue-on-error: true
+        continue-on-error: true
 
       - name: terraform apply
         id: apply
@@ -105,4 +106,6 @@ jobs:
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
           TF_VAR_private_key: ${{ secrets.OCI_PRIVATE_KEY }}
         if: steps.plan.outcome == 'success'
-        run: terraform apply -auto-approve
+        run: |
+          export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
+          terraform apply -auto-approve
