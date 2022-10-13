@@ -34,7 +34,6 @@ jobs:
 
       - name: terraform init
         id: init
-        if: contains(github.event.action,'init')
         env:
           TRIGGER: ${{ github.event.client_payload.repository }}
           TF_CLOUD_ORGANIZATION: bbqwednesday
