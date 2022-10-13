@@ -44,6 +44,7 @@ jobs:
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
           TF_VAR_private_key: ${{ secrets.OCI_PRIVATE_KEY }}
+          TF_VAR_gh_runner_token: ${{ secrets.GH_ACTION_RUNNER_TOKEN }}
         run: |
           export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
           terraform init -upgrade
@@ -60,6 +61,7 @@ jobs:
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
           TF_VAR_private_key: ${{ secrets.OCI_PRIVATE_KEY }}
+          TF_VAR_gh_runner_token: ${{ secrets.GH_ACTION_RUNNER_TOKEN }}
         if: contains(github.event.action,'init')
         run: |
           terraform validate -no-color
@@ -76,6 +78,7 @@ jobs:
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
           TF_VAR_private_key: ${{ secrets.OCI_PRIVATE_KEY }}
+          TF_VAR_gh_runner_token: ${{ secrets.GH_ACTION_RUNNER_TOKEN }}
         if: contains(github.event.action,'init')
         run: |
           export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
@@ -94,6 +97,7 @@ jobs:
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
           TF_VAR_private_key: ${{ secrets.OCI_PRIVATE_KEY }}
+          TF_VAR_gh_runner_token: ${{ secrets.GH_ACTION_RUNNER_TOKEN }}
         if: steps.plan.outcome == 'success'
         run: |
           export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
@@ -111,6 +115,7 @@ jobs:
           TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
           TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
           TF_VAR_private_key: ${{ secrets.OCI_PRIVATE_KEY }}
+          TF_VAR_gh_runner_token: ${{ secrets.GH_ACTION_RUNNER_TOKEN }}
         if: contains(github.event.action,'destroy')
         run: |
           export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
