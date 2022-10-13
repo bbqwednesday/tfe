@@ -24,17 +24,6 @@ jobs:
           --header "Content-Type: application/vnd.api+json" \
           --data '{"data": {"attributes": {"name": "'"$TF_WORKSPACE"'"},"type":"workspaces"}}'
 
-#      - name: Initialize Workspace
-#        if: contains(github.event.action,'init')
-#        env:
-#          TRIGGER: ${{ github.event.client_payload.repository }}
-#        run: |
-#          export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
-#          export TF_CLOUD_ORGANIZATION=${{ github.repository_owner }}
-#          terraform init -upgrade
-#          export TF_VAR_github_user=${{ github.repository_owner }}
-#          export TF_VAR_oci_compartment_id=${{ secrets.OCI_COMPARTMENT_ID }}
-#          export TF_VAR_tailscale_auth_key=${{ secrets.TAILSCALE_AUTH_TOKEN }}
 
       - name: Checkout dynamic-tf-oci-arm64
         uses: actions/checkout@v3
@@ -45,6 +34,7 @@ jobs:
 
       - name: terraform init
         id: init
+        if: contains(github.event.action,'init')
         env:
           TRIGGER: ${{ github.event.client_payload.repository }}
           TF_CLOUD_ORGANIZATION: bbqwednesday
@@ -109,3 +99,20 @@ jobs:
         run: |
           export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
           terraform apply -auto-approve
+
+      - name: terraform destroy
+        id: destroy
+        env:
+          TRIGGER: ${{ github.event.client_payload.repository }}
+          TF_CLOUD_ORGANIZATION: bbqwednesday
+          TF_VAR_github_user: dashaun
+          TF_VAR_tailscale_auth_key: ${{ secrets.TAILSCALE_AUTH_TOKEN }}
+          TF_VAR_tenancy_ocid: ${{ secrets.OCI_TENANCY_ID }}
+          TF_VAR_compartment_ocid: ${{ secrets.OCI_COMPARTMENT_ID }}
+          TF_VAR_user_ocid: ${{ secrets.OCI_USER_OCID }}
+          TF_VAR_fingerprint: ${{ secrets.OCI_FINGERPRINT }}
+          TF_VAR_private_key: ${{ secrets.OCI_PRIVATE_KEY }}
+        if: contains(github.event.action,'destroy')
+        run: |
+          export TF_WORKSPACE=$(echo $TRIGGER | cut -d "/" -f 2)
+          terraform destroy -auto-approve
