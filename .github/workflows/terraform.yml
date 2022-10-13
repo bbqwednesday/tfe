@@ -37,10 +37,11 @@ jobs:
           export TF_VAR_tailscale_auth_key=${{ secrets.TAILSCALE_AUTH_TOKEN }}
 
       - name: Checkout dynamic-tf-oci-arm64
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         if: contains(github.event.action,'dynamic-tf-oci-arm64')
         with:
           repository: dashaun/dynamic-tf-oci-arm64
+          ref: main
 
       - name: terraform validate
         id: validate
