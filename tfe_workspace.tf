@@ -13,7 +13,7 @@ resource "tfe_workspace" "default" {
 
 resource "tfe_workspace" "auto_apply" {
   for_each     = toset(data.github_repositories.terraform.names)
-  name         = each.key
+  name         = replace(each.key, ".", "-")
   organization = data.tfe_organization.default.name
   auto_apply   = true
   vcs_repo {
