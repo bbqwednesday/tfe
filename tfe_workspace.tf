@@ -1,21 +1,23 @@
-resource "tfe_workspace" "email-capture-function" {
-  name         = "email-capture-function"
+resource "tfe_workspace" "default" {
+  for_each     = toset(data.github_repositories.default.names)
+  name         = each.key
   organization = data.tfe_organization.default.name
-  auto_apply   = true
+  auto_apply   = false
   vcs_repo {
-    identifier         = format("%s/%s", data.tfe_organization.default.name, "email-capture-function")
+    identifier         = format("%s/%s", data.tfe_organization.default.name, each.key)
     ingress_submodules = true
     oauth_token_id     = data.tfe_oauth_client.github.oauth_token_id
     branch             = "main"
   }
 }
 
-resource "tfe_workspace" "cloudflare-terraform" {
-  name         = "cloudflare-terraform"
+resource "tfe_workspace" "auto_apply" {
+  for_each     = toset(data.github_repositories.terraform.names)
+  name         = each.key
   organization = data.tfe_organization.default.name
-  auto_apply   = false
+  auto_apply   = true
   vcs_repo {
-    identifier         = format("%s/%s", data.tfe_organization.default.name, "cloudflare-terraform")
+    identifier         = format("%s/%s", data.tfe_organization.default.name, each.key)
     ingress_submodules = true
     oauth_token_id     = data.tfe_oauth_client.github.oauth_token_id
     branch             = "main"
