@@ -9,5 +9,3 @@ terraform {
     }
   }
 }
-
-provider "tfe" {}
