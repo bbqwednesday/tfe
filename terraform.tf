@@ -1,6 +1,6 @@
 terraform {
-  #  cloud {
-  #  }
+    cloud {
+    }
 
   required_providers {
     github = {
