@@ -3,5 +3,5 @@ data "github_repositories" "terraform" {
 }
 
 data "github_repositories" "default" {
-  query = "org:bbqwednesday -terraform -tfe"
+  query = "org:bbqwednesday -language:HCL"
 }
