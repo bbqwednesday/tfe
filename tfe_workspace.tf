@@ -1,6 +1,6 @@
 resource "tfe_workspace" "default" {
   for_each     = toset(data.github_repositories.default.names)
-  name         = each.key
+  name         = replace(each.key, ".", "-")
   organization = data.tfe_organization.default.name
   auto_apply   = false
   vcs_repo {
