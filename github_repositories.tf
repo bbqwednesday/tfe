@@ -1,5 +1,5 @@
 data "github_repositories" "terraform" {
-  query = "org:bbqwednesday terraform NOT cloud-terraform"
+  query = "org:bbqwednesday terraform NOT terraform-cloud"
 }
 
 data "github_repositories" "default" {
