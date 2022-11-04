@@ -1,5 +1,5 @@
 data "github_repositories" "terraform" {
-  query = "org:bbqwednesday terraform"
+  query = "org:bbqwednesday -terraform"
 }
 
 data "github_repositories" "default" {
